@@ -1,0 +1,12 @@
+services:
+  app:
+    build: .
+    env_file: .env          # copy .env.example to .env first
+    ports:
+      - "8000:8000"
+    volumes:
+      - dd_data:/app/data   # named volume: SQLite is unreliable on Windows bind mounts
+    restart: unless-stopped
+
+volumes:
+  dd_data:

@@ -1,0 +1,81 @@
+Loan ID,Borrower,Outstanding Balance,Days Past Due,Interest Rate,Status,Collateral
+L0001,Summit Clinics,157000,0,0.0743,Current,Unsecured
+L0002,Harbor Logistics,267000,0,0.1519,Current,Real estate
+L0003,Northwind Traders,124000,0,0.0763,Current,Real estate
+L0004,Lakeside Hotels,297000,0,0.1209,Current,Real estate
+L0005,Ironbridge Steel,1134000,104,0.1219,Default,Equipment
+L0006,Northwind Traders,193000,0,0.1473,Current,Equipment
+L0007,Blue Mesa Foods,153000,0,0.1214,Current,Unsecured
+L0008,Redwood Timber,172000,0,0.1214,Current,Real estate
+L0009,Summit Clinics,129000,0,0.0757,Current,Real estate
+L0010,Ironbridge Steel,1188000,0,0.1312,Current,Equipment
+L0011,Summit Clinics,318000,0,0.1108,Current,Equipment
+L0012,Delta Textiles,172000,12,0.092,Current,Unsecured
+L0013,Orbit Retail,348000,0,0.1009,Current,Equipment
+L0014,Orbit Retail,391000,190,0.0806,Default,Equipment
+L0015,Ironbridge Steel,492000,38,0.0837,Delinquent,Equipment
+L0016,Blue Mesa Foods,100000,190,0.077,Default,Unsecured
+L0017,Cobalt Software,240000,0,0.1015,Current,Equipment
+L0018,Cobalt Software,313000,0,0.0784,Current,Equipment
+L0019,Ironbridge Steel,339000,0,0.1331,Current,Unsecured
+L0020,Ironbridge Steel,1125000,190,0.144,Default,Equipment
+L0021,Atlas Transport,277000,104,0.1012,Default,Equipment
+L0022,Summit Clinics,166000,0,0.1144,Current,Real estate
+L0023,Orbit Retail,146000,12,0.1058,Current,Equipment
+L0024,Harbor Logistics,165000,0,0.1194,Current,Real estate
+L0025,Ironbridge Steel,900000,67,0.0951,Delinquent,Equipment
+L0026,Summit Clinics,274000,190,0.0836,Default,Real estate
+L0027,Pinecrest Farms,198000,12,0.0711,Current,Unsecured
+L0028,Pinecrest Farms,214000,0,0.0831,Current,Unsecured
+L0029,Summit Clinics,392000,0,0.1558,Current,Unsecured
+L0030,Ironbridge Steel,1029000,190,0.1289,Default,Unsecured
+L0031,Northwind Traders,313000,104,0.1402,Default,Unsecured
+L0032,Lakeside Hotels,280000,0,0.1055,Current,Equipment
+L0033,Redwood Timber,285000,0,0.0761,Current,Real estate
+L0034,Ironbridge Steel,489000,0,0.1241,Current,Real estate
+L0035,Ironbridge Steel,240000,0,0.1183,Current,Equipment
+L0036,Cobalt Software,93000,0,0.0887,Current,Equipment
+L0037,Pinecrest Farms,209000,190,0.1242,Default,Equipment
+L0038,Harbor Logistics,139000,67,0.1594,Delinquent,Equipment
+L0039,Ironbridge Steel,981000,0,0.083,Current,Unsecured
+L0040,Ironbridge Steel,765000,38,0.1131,Delinquent,Unsecured
+L0041,Pinecrest Farms,344000,0,0.1556,Current,Unsecured
+L0042,Summit Clinics,155000,12,0.1523,Current,Unsecured
+L0043,Orbit Retail,126000,12,0.0935,Current,Equipment
+L0044,Pinecrest Farms,262000,38,0.1179,Delinquent,Unsecured
+L0045,Ironbridge Steel,744000,12,0.1252,Current,Real estate
+L0046,Delta Textiles,285000,12,0.0904,Current,Unsecured
+L0047,Ironbridge Steel,786000,12,0.1591,Current,Equipment
+L0048,Ironbridge Steel,636000,0,0.1245,Current,Equipment
+L0049,Ironbridge Steel,774000,190,0.1028,Default,Real estate
+L0050,Ironbridge Steel,396000,0,0.0877,Current,Real estate
+L0051,Ironbridge Steel,1197000,190,0.1249,Default,Real estate
+L0052,Ironbridge Steel,768000,38,0.0776,Delinquent,Unsecured
+L0053,Harbor Logistics,278000,38,0.1375,Delinquent,Equipment
+L0054,Pinecrest Farms,302000,38,0.0999,Delinquent,Unsecured
+L0055,Ironbridge Steel,846000,0,0.1369,Current,Real estate
+L0056,Atlas Transport,161000,0,0.0814,Current,Real estate
+L0057,Cobalt Software,318000,38,0.0832,Delinquent,Unsecured
+L0058,Ironbridge Steel,777000,0,0.1193,Current,Real estate
+L0059,Northwind Traders,132000,0,0.154,Current,Equipment
+L0060,Ironbridge Steel,537000,67,0.089,Delinquent,Equipment
+L0061,Delta Textiles,229000,0,0.1387,Current,Equipment
+L0062,Orbit Retail,358000,0,0.0818,Current,Unsecured
+L0063,Summit Clinics,314000,12,0.1434,Current,Unsecured
+L0064,Blue Mesa Foods,336000,0,0.0837,Current,Unsecured
+L0065,Ironbridge Steel,267000,67,0.1399,Delinquent,Unsecured
+L0066,Northwind Traders,156000,0,0.1126,Current,Unsecured
+L0067,Harbor Logistics,364000,0,0.1314,Current,Unsecured
+L0068,Lakeside Hotels,327000,38,0.0795,Delinquent,Unsecured
+L0069,Northwind Traders,207000,0,0.0738,Current,Real estate
+L0070,Ironbridge Steel,1017000,0,0.0725,Current,Real estate
+L0071,Ironbridge Steel,738000,0,0.1155,Current,Unsecured
+L0072,Delta Textiles,221000,0,0.118,Current,Equipment
+L0073,Lakeside Hotels,206000,12,0.1489,Current,Equipment
+L0074,Lakeside Hotels,183000,67,0.0823,Delinquent,Real estate
+L0075,Ironbridge Steel,840000,0,0.0765,Current,Real estate
+L0076,Blue Mesa Foods,117000,0,0.0973,Current,Real estate
+L0077,Pinecrest Farms,267000,0,0.1495,Current,Equipment
+L0078,Delta Textiles,128000,0,0.1139,Current,Unsecured
+L0079,Delta Textiles,162000,12,0.1595,Current,Equipment
+L0080,Ironbridge Steel,759000,0,0.1021,Current,Real estate

@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Diligence Desk</title>
+<style>
+:root{
+  --paper:#e8ece6; --surface:#fbfcfa; --ink:#16211b; --muted:#55645b; --rule:#bfcabf; --rule-soft:#d9e0d8;
+  --accent:#14573f; --accent-soft:#dcebe3; --high:#a3262a; --med:#8a5a00; --low:#3f5d78;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{background:var(--paper);color:var(--ink);font:15px/1.5 var(--sans);font-variant-numeric:tabular-nums}
+button,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.app{display:grid;grid-template-columns:270px 1fr;min-height:100%}
+/* rail */
+.rail{background:var(--ink);color:#e6ede8;padding:22px 18px;display:flex;flex-direction:column;gap:18px}
+.brand{font:600 22px/1.1 var(--serif);letter-spacing:.01em}
+.brand small{display:block;font:400 12.5px/1.4 var(--sans);color:#9fb3a7;margin-top:6px}
+.deals{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px;overflow:auto;flex:1}
+.deals button{width:100%;text-align:left;background:none;border:0;border-left:3px solid transparent;color:inherit;padding:9px 10px}
+.deals button:hover{background:#22332a}
+.deals button[aria-current="true"]{border-left-color:#7fcaa6;background:#22332a}
+.deals .co{display:block;font-weight:600}
+.deals .sub{display:block;font-size:12.5px;color:#9fb3a7}
+.rail details{border-top:1px solid #33463b;padding-top:14px}
+.rail summary{cursor:pointer;font-weight:600}
+.rail form{display:grid;gap:8px;margin-top:10px}
+.rail label{font-size:12.5px;color:#9fb3a7;display:grid;gap:3px}
+.rail input,.rail textarea{background:#22332a;border:1px solid #3a5043;color:#fff;padding:7px 9px;border-radius:3px;width:100%}
+.rail textarea{resize:vertical;min-height:54px}
+.rail .go{background:#7fcaa6;color:#0e2a1e;border:0;border-radius:3px;padding:8px;font-weight:600}
+/* main */
+main{padding:26px 34px 60px;min-width:0}
+.head{display:flex;gap:24px;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;border-bottom:2px solid var(--ink);padding-bottom:16px}
+h1{font:600 32px/1.15 var(--serif);margin:0}
+.meta{color:var(--muted);margin-top:4px}
+.actions{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.btn{background:var(--surface);border:1px solid var(--ink);border-radius:3px;padding:7px 14px;font-weight:600}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.quiet{border-color:var(--rule);font-weight:500;color:var(--muted)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+/* risk ledger */
+.ledger{min-width:300px;max-width:380px;flex:1}
+.ledger .score{display:flex;align-items:baseline;gap:10px}
+.ledger .num{font:600 54px/1 var(--serif)}
+.ledger .of{color:var(--muted)}
+.bar{display:flex;height:12px;border:1px solid var(--ink);margin:8px 0 6px;background:var(--surface)}
+.bar i{display:block;height:100%}
+.legend{display:flex;gap:14px;font-size:13px;color:var(--muted);flex-wrap:wrap}
+.legend b{color:var(--ink)}
+.rec{margin-top:8px;font-weight:600}
+/* tabs */
+.tabs{display:flex;gap:2px;margin:22px 0 0;border-bottom:1px solid var(--rule);overflow:auto}
+.tabs button{background:none;border:0;border-bottom:3px solid transparent;padding:9px 14px;font-weight:600;color:var(--muted);white-space:nowrap}
+.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.panel{background:var(--surface);border:1px solid var(--rule);border-top:0;padding:22px 24px;min-height:300px}
+#notice{margin:14px 0 0}
+.note{padding:9px 12px;border-left:4px solid var(--accent);background:var(--accent-soft)}
+.note.err{border-left-color:var(--high);background:#f5dcdc}
+h2{font:600 20px/1.2 var(--serif);margin:0 0 12px}
+h3{font:600 16px/1.3 var(--serif);margin:22px 0 8px}
+.muted{color:var(--muted)}
+/* tables */
+table{border-collapse:collapse;width:100%}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+th{font-weight:600;color:var(--muted);font-size:13px;border-bottom:1px solid var(--ink)}
+td.n,th.n{text-align:right}
+.wrap{overflow-x:auto}
+.sev{font-weight:700;white-space:nowrap}
+.sev.High{color:var(--high)} .sev.Medium{color:var(--med)} .sev.Low{color:var(--low)}
+tr.High td:first-child{box-shadow:inset 3px 0 var(--high)} tr.Medium td:first-child{box-shadow:inset 3px 0 var(--med)} tr.Low td:first-child{box-shadow:inset 3px 0 var(--low)}
+.st{font-weight:600} .st.failed{color:var(--high)} .st.ready{color:var(--accent)} .st.queued,.st.processing{color:var(--med)}
+.errtext{color:var(--high);font-size:13.5px;margin-top:2px}
+/* upload */
+.drop{display:block;border:2px dashed var(--rule);padding:22px;text-align:center;margin-bottom:18px;cursor:pointer;background:var(--paper)}
+.drop.over,.drop:hover{border-color:var(--accent);background:var(--accent-soft)}
+.drop input{display:none}
+/* portfolio */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0;border:1px solid var(--rule);margin:10px 0 14px}
+.kpis div{padding:10px 12px;border-right:1px solid var(--rule-soft)}
+.kpis b{display:block;font:600 22px/1.2 var(--serif)}
+.kpis span{font-size:12.5px;color:var(--muted)}
+.hb{display:grid;grid-template-columns:70px 1fr 90px;gap:10px;align-items:center;margin:4px 0;font-size:13.5px}
+.hb div{height:10px;background:var(--rule-soft)} .hb div i{display:block;height:100%;background:var(--ink)}
+.hb.late div i{background:var(--high)}
+/* memo / chat text */
+.doc{max-width:78ch}
+.doc h2{margin-top:26px;border-bottom:1px solid var(--rule);padding-bottom:4px}
+.doc p,.doc li{margin:.5em 0}
+.doc table{margin:10px 0;font-size:14px}
+.chat{display:grid;gap:14px;max-width:80ch}
+.msg{padding:10px 14px;border:1px solid var(--rule)}
+.msg.user{background:var(--accent-soft);border-color:var(--accent-soft);justify-self:end;max-width:90%}
+.msg.assistant{background:var(--surface)}
+.ask{display:flex;gap:8px;margin-top:16px;max-width:80ch}
+.ask input{flex:1;padding:9px 11px;border:1px solid var(--ink);border-radius:3px;background:#fff}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.chips button{background:var(--paper);border:1px solid var(--rule);border-radius:99px;padding:4px 12px;font-size:13.5px}
+.empty{padding:50px 10px;max-width:60ch}
+.empty h2{font-size:26px}
+@media (max-width:820px){
+  .app{grid-template-columns:1fr} .rail{padding:16px} .deals{max-height:160px}
+  main{padding:18px 14px 50px} h1{font-size:26px} .panel{padding:16px 12px}
+  .hb{grid-template-columns:56px 1fr 78px}
+}
+@media (prefers-reduced-motion:no-preference){ .drop{transition:background .15s,border-color .15s} }
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="rail">
+    <div class="brand">Diligence Desk<small>Drop in the deal room. Get findings, a memo, and answers that cite the file.</small></div>
+    <ul class="deals" id="deals" aria-label="Deals"></ul>
+    <details id="newdeal">
+      <summary>New deal</summary>
+      <form id="dealform">
+        <label>Company<input name="company_name" required maxlength="200" placeholder="Acme Lending Ltd"></label>
+        <label>Deal type<input name="deal_type" maxlength="100" placeholder="Acquisition, loan purchase, credit facility"></label>
+        <label>Deal size<input name="deal_size" maxlength="100" placeholder="USD 25M"></label>
+        <label>Notes for the analyst<textarea name="notes" maxlength="5000" placeholder="What worries you? What must be true for this deal?"></textarea></label>
+        <button class="go" type="submit">Create deal</button>
+      </form>
+    </details>
+  </aside>
+
+  <main id="main"></main>
+</div>
+
+<script>
+"use strict";
+const $ = (s, el = document) => el.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const num = n => Number(n).toLocaleString(undefined, {maximumFractionDigits: 0});
+const pct = n => (n == null ? "-" : Number(n).toFixed(1) + "%");
+
+async function api(path, opts = {}) {
+  const res = await fetch(path, opts);
+  if (!res.ok) {
+    let msg = res.statusText || "Request failed";
+    try {
+      const b = await res.json(), d = b.detail;
+      msg = typeof d === "string" ? d : Array.isArray(d) ? d.map(x => x.msg).join("; ") : JSON.stringify(d ?? b);
+    } catch (_) {}
+    throw new Error(msg);
+  }
+  return res.json();
+}
+const post = (p, body) => api(p, {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(body ?? {})});
+
+const S = {projects: [], pid: null, project: null, docs: [], analysis: null, portfolios: [], memo: null, chat: [], tab: "documents", busy: "", error: "", poll: null};
+const TABS = [["documents", "Documents"], ["findings", "Findings"], ["numbers", "Numbers"], ["memo", "Memo"], ["ask", "Ask the documents"]];
+const ACCEPT = ".pdf,.docx,.xlsx,.xlsm,.xls,.csv,.tsv,.pptx,.png,.jpg,.jpeg,.webp,.gif,.tif,.tiff,.bmp,.txt,.md,.json,.xml,.html,.htm";
+
+/* ---------- minimal, safe markdown ---------- */
+function md(src) {
+  const inline = t => t.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replace(/(^|[\s(])\*([^*\s][^*]*?)\*(?=[\s).,;:]|$)/g, "$1<em>$2</em>");
+  const lines = esc(src).split("\n"); const out = []; let list = null, tbl = [];
+  const endList = () => { if (list) { out.push(`</${list}>`); list = null; } };
+  const endTbl = () => {
+    if (!tbl.length) return;
+    const rows = tbl.filter(r => !/^\s*\|?[\s:|-]+\|?\s*$/.test(r)).map(r => r.trim().replace(/^\||\|$/g, "").split("|").map(c => inline(c.trim())));
+    if (rows.length) out.push('<div class="wrap"><table><thead><tr>' + rows[0].map(c => `<th>${c}</th>`).join("") + "</tr></thead><tbody>" +
+      rows.slice(1).map(r => "<tr>" + r.map(c => `<td>${c}</td>`).join("") + "</tr>").join("") + "</tbody></table></div>");
+    tbl = [];
+  };
+  /* page title is h1, so '#' and '##' both render as section headings (h2) */
+  for (const raw of lines) {
+    const l = raw.trimEnd(); let m;
+    if (/^\s*\|/.test(l)) { endList(); tbl.push(l); continue; } else endTbl();
+    if ((m = l.match(/^(#{1,4})\s+(.*)/))) { endList(); const n = Math.max(2, Math.min(m[1].length, 4)); out.push(`<h${n}>${inline(m[2])}</h${n}>`); }
+    else if ((m = l.match(/^\s*[-*]\s+(.*)/))) { if (list !== "ul") { endList(); out.push("<ul>"); list = "ul"; } out.push(`<li>${inline(m[1])}</li>`); }
+    else if ((m = l.match(/^\s*\d+[.)]\s+(.*)/))) { if (list !== "ol") { endList(); out.push("<ol>"); list = "ol"; } out.push(`<li>${inline(m[1])}</li>`); }
+    else if (/^\s*---+\s*$/.test(l)) { endList(); out.push("<hr>"); }
+    else if (!l.trim()) endList();
+    else { endList(); out.push(`<p>${inline(l)}</p>`); }
+  }
+  endList(); endTbl();
+  return out.join("\n");
+}
+
+/* ---------- data loading ---------- */
+async function loadProjects() {
+  S.projects = await api("/api/projects");
+  renderRail();
+}
+async function selectProject(id) {
+  S.pid = id; S.error = ""; S.busy = ""; S.tab = "documents";
+  S.project = S.projects.find(p => p.id === id);
+  [S.docs, S.analysis, S.portfolios, S.memo, S.chat] = await Promise.all([
+    api(`/api/projects/${id}/documents`), api(`/api/projects/${id}/analysis`), api(`/api/projects/${id}/portfolios`),
+    api(`/api/projects/${id}/memo`).then(r => r.markdown), api(`/api/projects/${id}/chat`)]);
+  renderRail(); render(); schedulePoll();
+}
+function schedulePoll() {
+  clearTimeout(S.poll);
+  if (S.docs.some(d => d.status === "queued" || d.status === "processing")) {
+    const id = S.pid;
+    S.poll = setTimeout(async () => {
+      if (S.pid !== id) return;
+      try {
+        S.docs = await api(`/api/projects/${id}/documents`);
+        S.portfolios = await api(`/api/projects/${id}/portfolios`);
+      } catch (_) {}
+      if (S.pid === id) { render(); schedulePoll(); }
+    }, 1500);
+  }
+}
+
+/* ---------- rendering ---------- */
+function renderRail() {
+  $("#deals").innerHTML = S.projects.map(p =>
+    `<li><button data-id="${esc(p.id)}" aria-current="${p.id === S.pid}"><span class="co">${esc(p.company_name)}</span><span class="sub">${esc([p.deal_type, p.deal_size].filter(Boolean).join(", ") || "No deal details")}</span></button></li>`).join("")
+    || '<li class="sub" style="padding:8px 10px;color:#9fb3a7">No deals yet.</li>';
+}
+
+function render() {
+  const main = $("#main");
+  if (!S.project) {
+    main.innerHTML = `<div class="empty"><h2>Start with a deal</h2><p>Create a deal in the left panel, then upload what the seller sent: financial statements, loan tapes, contracts, customer lists, scanned PDFs, even photos of pages.</p>
+      <p class="muted">Supported: PDF, Word, Excel, CSV, PowerPoint, images, text and HTML files.</p></div>`;
+    if (!S.projects.length) $("#newdeal").open = true;
+    return;
+  }
+  const keepFocus = document.activeElement && document.activeElement.id === "q";
+  const qv = keepFocus ? document.activeElement.value : null;
+  main.innerHTML = `
+    <div class="head">
+      <div style="flex:2;min-width:260px">
+        <h1>${esc(S.project.company_name)}</h1>
+        <div class="meta">${esc([S.project.deal_type, S.project.deal_size].filter(Boolean).join(", ") || "No deal details")}</div>
+        <div class="actions">
+          <button class="btn primary" id="run" ${ready() ? "" : "disabled"}>Run analysis</button>
+          <button class="btn" id="memoBtn" ${ready() ? "" : "disabled"}>Write memo</button>
+          <button class="btn quiet" id="delDeal">Delete deal</button>
+        </div>
+      </div>
+      ${ledger()}
+    </div>
+    <div id="notice" role="status" aria-live="polite">${notice()}</div>
+    <div class="tabs" role="tablist">${TABS.map(([k, v]) => `<button role="tab" data-tab="${k}" aria-selected="${S.tab === k}">${v}${k === "documents" ? ` (${S.docs.length})` : ""}</button>`).join("")}</div>
+    <section class="panel" id="panel">${panel()}</section>`;
+  if (S.tab === "ask") { const q = $("#q"); if (q && qv != null) { q.value = qv; q.focus(); } const c = $(".chat"); if (c) c.lastElementChild?.scrollIntoView({block: "nearest"}); }
+}
+const ready = () => S.docs.some(d => d.status === "ready") && !S.busy;
+const notice = () => S.busy ? `<div class="note">${esc(S.busy)}</div>` : S.error ? `<div class="note err" role="alert">${esc(S.error)}</div>` : "";
+
+function ledger() {
+  const a = S.analysis;
+  if (!a) return `<div class="ledger"><div class="muted">Not analyzed yet. Upload documents, wait until they are ready, then run the analysis.</div></div>`;
+  const c = a.counts, tot = Math.max(1, c.High + c.Medium + c.Low);
+  const seg = (n, col) => n ? `<i style="width:${n / tot * 100}%;background:${col}" title="${n}"></i>` : "";
+  return `<div class="ledger"><div class="score"><span class="num">${a.risk_score}</span><span class="of">/ 100 risk, from ${c.High + c.Medium + c.Low} findings</span></div>
+    <div class="bar" role="img" aria-label="${c.High} high, ${c.Medium} medium, ${c.Low} low">${seg(c.High, "var(--high)")}${seg(c.Medium, "var(--med)")}${seg(c.Low, "var(--low)")}</div>
+    <div class="legend"><span><b>${c.High}</b> high</span><span><b>${c.Medium}</b> medium</span><span><b>${c.Low}</b> low</span></div>
+    <div class="rec">${esc(a.recommendation)}</div></div>`;
+}
+
+function panel() {
+  return ({documents: docsPanel, findings: findingsPanel, numbers: numbersPanel, memo: memoPanel, ask: askPanel})[S.tab]();
+}
+
+function docsPanel() {
+  const rows = S.docs.map(d => `<tr><td>${esc(d.filename)}${d.error ? `<div class="errtext">${esc(d.error)}</div>` : ""}</td>
+    <td>${esc(d.kind || "")}${d.loan_tape ? " (loan tape)" : ""}</td><td class="n">${d.chars ? num(d.chars) : ""}</td>
+    <td><span class="st ${esc(d.status)}">${esc(d.status)}</span></td>
+    <td><button class="btn quiet" data-deldoc="${esc(d.id)}" aria-label="Remove ${esc(d.filename)}">Remove</button></td></tr>`).join("");
+  return `<label class="drop" id="drop"><input type="file" id="file" multiple accept="${ACCEPT}">
+      <strong>Drop files here or click to choose</strong><div class="muted">PDF, Word, Excel, CSV, PowerPoint, images, text. Up to 50 MB each. Scans are read with OCR.</div></label>
+    ${S.docs.length ? `<div class="wrap"><table><thead><tr><th>File</th><th>Type</th><th class="n">Characters</th><th>Status</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>`
+      : '<p class="muted">No documents yet. Add the financials, loan tape, contracts and customer data you have.</p>'}`;
+}
+
+function findingsPanel() {
+  const a = S.analysis;
+  if (!a) return '<p class="muted">Run the analysis to see findings. It reads every ready document and cites the file behind each point.</p>';
+  const f = a.findings.map(x => `<tr class="${esc(x.severity)}"><td class="sev ${esc(x.severity)}">${esc(x.severity)}</td>
+    <td>${esc(x.category.replace(/_/g, " "))}</td><td><strong>${esc(x.title)}</strong><div>${esc(x.explanation)}</div>
+    ${x.evidence ? `<div class="muted">Evidence: ${esc(x.evidence)}</div>` : ""}</td><td>${esc(x.source_file)}</td></tr>`).join("");
+  const li = arr => arr.length ? "<ul>" + arr.map(x => `<li>${esc(x)}</li>`).join("") + "</ul>" : '<p class="muted">None.</p>';
+  return `<h2>Summary</h2><p class="doc">${esc(a.company_summary)}</p><p><strong>${esc(a.recommendation)}.</strong> ${esc(a.recommendation_rationale)}</p>
+    <h3>Findings</h3>${f ? `<div class="wrap"><table><thead><tr><th>Severity</th><th>Area</th><th>Finding</th><th>File</th></tr></thead><tbody>${f}</tbody></table></div>` : '<p class="muted">No findings reported.</p>'}
+    <h3>Information still missing</h3>${li(a.missing_information)}<h3>Questions for management</h3>${li(a.questions_for_management)}
+    <p class="muted">Risk score is a simple weighted count of findings. It is not calibrated against real deal outcomes. Analysis ran on ${a.document_count} files using ${esc(a.model)}.</p>`;
+}
+
+function numbersPanel() {
+  const a = S.analysis;
+  const metrics = a && a.key_metrics.length ? `<h2>Key figures from the documents</h2><div class="wrap"><table><thead><tr><th>Metric</th><th>Value</th><th>Period</th><th>File</th></tr></thead><tbody>` +
+    a.key_metrics.map(m => `<tr><td>${esc(m.name)}</td><td>${esc(m.value)}</td><td>${esc(m.period)}</td><td>${esc(m.source_file)}</td></tr>`).join("") + "</tbody></table></div>" : "";
+  const ports = S.portfolios.map(p => {
+    const b = p.dpd_buckets;
+    const bars = b ? Object.entries(b).map(([k, v]) => `<div class="hb ${k === "current" || k === "1-30" ? "" : "late"}"><span>${esc(k)} days</span><div><i style="width:${Math.min(100, v.pct_of_balance)}%"></i></div><span>${pct(v.pct_of_balance)}</span></div>`).join("") : "";
+    const top = (p.top_borrowers || []).map(t => `<tr><td>${esc(t.name)}</td><td class="n">${num(t.balance)}</td><td class="n">${pct(t.pct)}</td></tr>`).join("");
+    return `<h3>Loan portfolio: ${esc(p.file)}${p.sheet ? ` (${esc(p.sheet)})` : ""}</h3>
+      <div class="kpis"><div><b>${num(p.rows)}</b><span>loans</span></div><div><b>${num(p.total_balance)}</b><span>total balance</span></div>
+      ${p.weighted_avg_rate_pct != null ? `<div><b>${pct(p.weighted_avg_rate_pct)}</b><span>weighted avg rate</span></div>` : ""}
+      ${p.npl_ratio_90plus_pct != null ? `<div><b>${pct(p.npl_ratio_90plus_pct)}</b><span>90+ days past due</span></div>` : ""}
+      ${p.impaired_status_pct != null ? `<div><b>${pct(p.impaired_status_pct)}</b><span>in delinquent/default status</span></div>` : ""}
+      ${p.top10_borrowers_pct != null ? `<div><b>${pct(p.top10_borrowers_pct)}</b><span>top 10 borrowers</span></div>` : ""}</div>
+      ${bars ? `<div>${bars}</div>` : ""}${top ? `<div class="wrap"><table><thead><tr><th>Largest borrowers</th><th class="n">Balance</th><th class="n">Share</th></tr></thead><tbody>${top}</tbody></table></div>` : ""}
+      <p class="muted">Calculated by code from every row of the file, not by the AI. Columns used: ${esc(Object.entries(p.columns_used).map(([k, v]) => `${k} = ${v}`).join(", "))}.</p>`;
+  }).join("");
+  return (metrics + ports) || '<p class="muted">Nothing to show yet. Loan tapes are summarised as soon as they are read; other figures appear after you run the analysis.</p>';
+}
+
+function memoPanel() {
+  if (!S.memo) return '<p class="muted">No memo yet. Choose "Write memo" to draft an investment committee memo from the documents and findings.</p>';
+  return `<p><a class="btn" href="/api/projects/${esc(S.pid)}/memo.md" download>Download .md</a></p><div class="doc">${md(S.memo)}</div>`;
+}
+
+function askPanel() {
+  const msgs = S.chat.map(m => `<div class="msg ${m.role}">${m.role === "assistant" ? `<div class="doc">${md(m.content)}</div>` : esc(m.content)}</div>`).join("");
+  const chips = ["What is the customer concentration?", "Summarise debt, covenants and maturities.", "Which loans are 90+ days overdue?"];
+  return `<div class="chat">${msgs || '<p class="muted">Ask anything about the uploaded files. Answers use only the documents and name the file they came from.</p>'}</div>
+    <div class="chips">${chips.map(c => `<button data-chip="${esc(c)}">${esc(c)}</button>`).join("")}</div>
+    <form class="ask" id="askform"><input id="q" required maxlength="4000" placeholder="Ask about revenue, debt, contracts, loans..." aria-label="Your question" autocomplete="off"><button class="btn primary" ${S.busy ? "disabled" : ""}>Ask</button></form>`;
+}
+
+/* ---------- actions ---------- */
+async function guarded(label, fn) {
+  S.busy = label; S.error = ""; render();
+  try { await fn(); } catch (e) { S.error = e.message; }
+  S.busy = ""; render();
+}
+async function upload(files) {
+  if (!files.length) return;
+  const fd = new FormData(); [...files].forEach(f => fd.append("files", f));
+  await guarded(`Uploading ${files.length} file${files.length > 1 ? "s" : ""}...`, async () => {
+    await api(`/api/projects/${S.pid}/documents`, {method: "POST", body: fd});
+    S.docs = await api(`/api/projects/${S.pid}/documents`);
+  });
+  schedulePoll();
+}
+
+document.addEventListener("click", async e => {
+  const t = e.target.closest("button, a"); if (!t) return;
+  if (t.dataset.id) { selectProject(t.dataset.id).catch(err => { S.error = err.message; render(); }); }
+  else if (t.dataset.tab) { S.tab = t.dataset.tab; render(); }
+  else if (t.dataset.deldoc) {
+    if (!confirm("Remove this document? Findings already generated are kept until you run the analysis again.")) return;
+    await guarded("Removing...", async () => { await api(`/api/documents/${t.dataset.deldoc}`, {method: "DELETE"}); S.docs = await api(`/api/projects/${S.pid}/documents`); S.portfolios = await api(`/api/projects/${S.pid}/portfolios`); });
+  }
+  else if (t.id === "run") {
+    await guarded(`Analysing ${S.docs.filter(d => d.status === "ready").length} documents. This can take a minute or two...`, async () => { S.analysis = await post(`/api/projects/${S.pid}/analyze`); S.tab = "findings"; });
+  }
+  else if (t.id === "memoBtn") {
+    await guarded("Writing the memo. This can take a minute or two...", async () => {
+      S.memo = (await post(`/api/projects/${S.pid}/memo`)).markdown;
+      S.analysis = await api(`/api/projects/${S.pid}/analysis`); S.tab = "memo";
+    });
+  }
+  else if (t.id === "delDeal") {
+    if (!confirm(`Delete ${S.project.company_name} and all its documents? This can't be undone.`)) return;
+    await api(`/api/projects/${S.pid}`, {method: "DELETE"});
+    S.pid = S.project = null; S.docs = []; S.analysis = S.memo = null; await loadProjects(); render();
+  }
+  else if (t.dataset.chip) { S.tab = "ask"; render(); $("#q").value = t.dataset.chip; $("#q").focus(); }
+});
+
+document.addEventListener("submit", async e => {
+  e.preventDefault();
+  if (e.target.id === "dealform") {
+    const body = Object.fromEntries(new FormData(e.target));
+    try {
+      const p = await post("/api/projects", body); e.target.reset(); $("#newdeal").open = false;
+      await loadProjects(); await selectProject(p.id);
+    } catch (err) { S.error = err.message; render(); }
+  } else if (e.target.id === "askform") {
+    const q = $("#q").value.trim(); if (!q) return;
+    S.chat.push({role: "user", content: q}); $("#q").value = "";
+    await guarded("Searching the documents...", async () => { S.chat.push(await post(`/api/projects/${S.pid}/chat`, {message: q})); });
+    $("#q")?.focus();
+  }
+});
+
+document.addEventListener("change", e => { if (e.target.id === "file") { upload(e.target.files); e.target.value = ""; } });
+["dragover", "dragleave", "drop"].forEach(ev => document.addEventListener(ev, e => {
+  const d = e.target.closest && e.target.closest("#drop"); if (!d) return;
+  e.preventDefault(); d.classList.toggle("over", ev === "dragover");
+  if (ev === "drop") upload(e.dataTransfer.files);
+}));
+
+(async () => {
+  try {
+    const h = await api("/api/health");
+    await loadProjects();
+    render();
+    if (!h.llm_configured) { S.error = "GEMINI_API_KEY is not set. You can upload and read documents, but analysis, memo and questions need a key in .env."; if (S.project) render(); else $("#main").insertAdjacentHTML("afterbegin", `<div class="note err" role="alert">${esc(S.error)}</div>`); }
+  } catch (e) { $("#main").innerHTML = `<div class="note err">Couldn't reach the server: ${esc(e.message)}</div>`; }
+})();
+</script>
+</body>
+</html>
